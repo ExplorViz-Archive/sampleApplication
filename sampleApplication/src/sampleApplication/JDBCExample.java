@@ -121,33 +121,25 @@ public class JDBCExample {
 		LOG.info("Start generating SQL queries...");
 
 		// create queries based on the number of maximum iterations
-		int maxIterations = 100;
+		int maxIterations = 20;
 		for (int i = 0; i < maxIterations; i++) {
 			executeStatementHandler(databaseName, Querytype.statementExecute, "CREATE TABLE IF NOT EXISTS `order` "
 					+ "(oid integer PRIMARY KEY, name text NOT NULL, email text NOT NULL, odate text NOT NULL, itemid integer NOT NULL);",
 					null);
-
-			executeStatementHandler(databaseName, Querytype.statementExecute, "SELECT * FROM `order`;", null);
 			executeStatementHandler(databaseName, Querytype.statementExecute,
 					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
 							+ "', 'Tom B. Erichsen', 'erichsen@uni-kiel.de', '2017-11-16', '1');",
 					null);
-			executeStatementHandler(databaseName, Querytype.statementExecute,
-					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
-							+ "', 'Tom B. Erichsen', 'erichsen@uni-kiel.de', '2017-11-16', '2');",
-					null);
-			executeStatementHandler(databaseName, Querytype.statementExecute,
+			executeStatementHandler(databaseName, Querytype.statementExecuteQuery,
 					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
 							+ "', 'Carol K. Durham', 'durham@uni-kiel.de', '2017-10-08', '1');",
 					null);
-			executeStatementHandler(databaseName, Querytype.statementExecute,
-					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
-							+ "', 'Carol K. Durham', 'durham@uni-kiel.de', '2017-10-08', '2');",
-					null);
-			executeStatementHandler(databaseName, Querytype.statementExecute,
-					"SELECT * FROM `order` WHERE name = 'Carol K. Durham';", null);
-		}
+			executeStatementHandler(databaseName, Querytype.preparedStatementExecute,
+					"SELECT * FROM `order` WHERE name = ?", "Carol K. Durham");
 
+			executeStatementHandler(databaseName, Querytype.preparedStatementExecuteQuery,
+					"SELECT * FROM `order` WHERE name = ?", "Tom B. Erichsen");
+		}
 		LOG.info("Finished generating SQL queries...");
 	}
 
