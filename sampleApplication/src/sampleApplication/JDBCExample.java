@@ -3,205 +3,168 @@ package sampleApplication;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
+import java.util.logging.Logger;
 
 /**
- * JDBC Example Application Class
+ * JDBC Example Application Class for testing the new DatabaseAspects
  * 
- * @author Christian Zirkelbach
+ * @author Christian Zirkelbach (czi@informatik.uni-kiel.de)
  *
  */
 public class JDBCExample {
 
-	private static final boolean VERBOSE = true;
-
-	// JDBC driver name and database URL
-	private static final String JDBC_DRIVER = "org.postgresql.Driver";
-	private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/sampleApplication";
+	private static final Logger LOG = Logger.getLogger(JDBCExample.class.getName());
+	private static final String DB_BASE_URL = "jdbc:sqlite:";
 
 	// Database credentials
 	private static final String USER = "christian";
 	private static final String PASS = "test";
 
-	public static Connection connect() {
+	public static Connection connect(String databaseName) {
 		Connection connection = null;
+		String DB_URL = DB_BASE_URL + databaseName;
 
 		try {
-			Class.forName(JDBC_DRIVER);
+			if (DB_URL.contains("sqlite")) {
+				connection = DriverManager.getConnection(DB_URL);
+			} else {
+				connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			}
 
-		} catch (ClassNotFoundException e) {
-
-			System.out.println("Where is your PostgreSQL JDBC Driver? " + "Include in your library path!");
-			e.printStackTrace();
-			return connection;
-		}
-
-		try {
-			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			// get driver information
+			// DatabaseMetaData meta = connection.getMetaData();
+			// LOG.info("JDBC driver: " + meta.getDriverName());
 
 		} catch (SQLException e) {
-			System.out.println("Connection Failed! Check output console");
-			e.printStackTrace();
-			return connection;
-
+			LOG.warning(e.getMessage());
 		}
+
 		return connection;
 	}
 
 	public static void disconnect(final Connection conn) {
 		try {
 			conn.close();
-			// System.out.println("Connection closed!");
 		} catch (SQLException e) {
-			System.out.println("Can't close connection");
-			e.printStackTrace();
+			LOG.warning(e.getMessage());
 		}
 	}
 
 	/**
-	 * Generator for Statements queryTypes 0 (execute), 1 (executeQuery)
+	 * Generator for Statements with different querytypes
 	 * 
+	 * @param databaseName
 	 * @param query
-	 * @param queryType
-	 * @throws SQLException
 	 */
-	public static void executeStatementGenerator(final String query, final int queryType) throws SQLException {
+	public static void executeStatementHandler(final String databaseName, final Querytype qType, final String query,
+			final String preparedValue) {
 
-		final Connection conn = connect();
+		final Connection conn = connect(databaseName);
 
-		if (conn != null) {
-
-			final Statement stmt = conn.createStatement();
-
-			if (queryType == 1) {
-
-				final ResultSet rs = stmt.executeQuery(query);
-
-				if (VERBOSE) {
-					// Resultset
-					while (rs.next()) {
-						final String name = rs.getString("n");
-						final String date = rs.getString("d");
-						final String itemno = rs.getString("i");
-						System.out.print(name + "	|	");
-						System.out.print(date + "	|	");
-						System.out.println(itemno);
-					}
-
-					rs.close();
-
+		try {
+			if (conn != null) {
+				switch (qType) {
+				case statementExecute:
+					final Statement stmtE;
+					stmtE = conn.createStatement();
+					stmtE.execute(query);
+					stmtE.close();
+					break;
+				case statementExecuteQuery:
+					final Statement stmtEQ;
+					stmtEQ = conn.createStatement();
+					stmtEQ.executeQuery(query);
+					stmtEQ.close();
+					break;
+				case preparedStatementExecute:
+					final PreparedStatement pStmtE = conn.prepareStatement(query);
+					pStmtE.setString(1, preparedValue);
+					pStmtE.execute();
+					pStmtE.close();
+					break;
+				case preparedStatementExecuteQuery:
+					final PreparedStatement pStmtEQ = conn.prepareStatement(query);
+					pStmtEQ.setString(1, preparedValue);
+					pStmtEQ.executeQuery();
+					pStmtEQ.close();
+					break;
+				default:
+					break;
 				}
-			} else if (queryType == 0) {
-				stmt.execute(query);
+
+				disconnect(conn);
+
+			} else {
+				LOG.warning("Failed to connect!");
 			}
 
-			else {
-				System.out.println("Invalid queryType!");
-			}
+			conn.close();
 
-			stmt.close();
-			disconnect(conn);
-
-		} else {
-			System.out.println("Failed to connect!");
+		} catch (SQLException e) {
+			LOG.warning(e.getMessage());
 		}
+	}
 
-		conn.close();
+	public static void main(final String[] argv) {
+		runQueries();
 	}
 
 	/**
-	 * Generator for PreparedStatements queryTypes 0 (execute), 1 (executeQuery)
-	 * 
-	 * @param query
-	 * @param value
-	 * @param queryType
-	 * @throws SQLException
+	 * Executes SQL queries for testing purposes
 	 */
-	public static void executePreparedStatementGenerator(final String query, final String value, final int queryType)
-			throws SQLException {
+	private static void runQueries() {
+		String databaseName = "test.db";
 
-		final Connection conn = connect();
+		LOG.info("Start generating SQL queries...");
 
-		if (conn != null) {
+		// create queries based on the number of maximum iterations
+		int maxIterations = 100;
+		for (int i = 0; i < maxIterations; i++) {
+			executeStatementHandler(databaseName, Querytype.statementExecute, "CREATE TABLE IF NOT EXISTS `order` "
+					+ "(oid integer PRIMARY KEY, name text NOT NULL, email text NOT NULL, odate text NOT NULL, itemid integer NOT NULL);",
+					null);
 
-			final PreparedStatement preparedStatement = conn.prepareStatement(query);
-			preparedStatement.setString(1, value);
-
-			if (queryType == 1) {
-
-				final ResultSet rs = preparedStatement.executeQuery();
-
-				if (VERBOSE) {
-					// System.out.println("Results:");
-					while (rs.next()) {
-						final String name = rs.getString("n");
-						final String date = rs.getString("d");
-						final String itemno = rs.getString("i");
-						System.out.print(name + "	|	");
-						System.out.print(date + "	|	");
-						System.out.println(itemno);
-					}
-
-				}
-			} else if (queryType == 0) {
-				preparedStatement.execute();
-			}
-
-			else {
-				System.out.println("Invalid queryType!");
-			}
-
-			disconnect(conn);
+			executeStatementHandler(databaseName, Querytype.statementExecute, "SELECT * FROM `order`;", null);
+			executeStatementHandler(databaseName, Querytype.statementExecute,
+					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
+							+ "', 'Tom B. Erichsen', 'erichsen@uni-kiel.de', '2017-11-16', '1');",
+					null);
+			executeStatementHandler(databaseName, Querytype.statementExecute,
+					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
+							+ "', 'Tom B. Erichsen', 'erichsen@uni-kiel.de', '2017-11-16', '2');",
+					null);
+			executeStatementHandler(databaseName, Querytype.statementExecute,
+					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
+							+ "', 'Carol K. Durham', 'durham@uni-kiel.de', '2017-10-08', '1');",
+					null);
+			executeStatementHandler(databaseName, Querytype.statementExecute,
+					"INSERT INTO `order` (oid, name, email, odate, itemid) " + "VALUES('" + getRandomNumber()
+							+ "', 'Carol K. Durham', 'durham@uni-kiel.de', '2017-10-08', '2');",
+					null);
+			executeStatementHandler(databaseName, Querytype.statementExecute,
+					"SELECT * FROM `order` WHERE name = 'Carol K. Durham';", null);
 		}
 
-		else {
-			System.out.println("Failed to make connection!");
-		}
-
-		conn.close();
+		LOG.info("Finished generating SQL queries...");
 	}
 
-	public static void main(final String[] argv) throws SQLException {
-
-		/*
-		 * Testing queries for the instrumentation
-		 */
-		initDatabase();
-
-		// testQueries();
-
+	/**
+	 * Returns a random number between low and high
+	 * 
+	 * @return
+	 */
+	private static int getRandomNumber() {
+		Random r = new Random();
+		int Low = 10;
+		int High = 100000;
+		return r.nextInt(High - Low) + Low;
 	}
 
-	private static void testQueries() throws SQLException {
-		/*
-		 * Statement
-		 */
-		executeStatementGenerator(
-				"SELECT * FROM purchases p WHERE EXISTS (SELECT * FROM purchases p2 WHERE p.d = p2.d - Interval '1 Month' AND p.n = p2.n AND p.i = p2.i)",
-				0);
-		executeStatementGenerator(
-				"SELECT * FROM purchases p WHERE EXISTS (SELECT * FROM purchases p2 WHERE p.d = p2.d - Interval '1 Month' AND p.n = p2.n AND p.i = p2.i)",
-				1);
-
-		/*
-		 * PreparedStatement
-		 */
-		executePreparedStatementGenerator("select * from purchases where name=?", "Carol K. Durham", 0);
-		executePreparedStatementGenerator("select * from purchases where name=?", "Carol K. Durham", 1);
-
+	public enum Querytype {
+		statementExecute, statementExecuteQuery, preparedStatementExecute, preparedStatementExecuteQuery
 	}
 
-	private static void initDatabase() throws SQLException {
-		executeStatementGenerator("CREATE TABLE pruchases (\n" + " id integer PRIMARY KEY,\n" + " name text NOT NULL,\n"
-				+ " email text NOT NULL UNIQUE,\n" + " purchasedate date NOT NULL,\n" + " itemid integer NOT NULL,\n"
-				+ ");", 0);
-
-		executeStatementGenerator("INSERT INTO purchases (id, name, email, purchasedate, itemid)\n"
-				+ "VALUES ('1', 'Tom B. Erichsen', 'erichsen@uni-kiel.de', '2017-11-16', '1' );", 0);
-
-		executeStatementGenerator("INSERT INTO purchases (id, name, email, date, purchasedate, itemid)\n"
-				+ "VALUES ('2', 'Carol K. Durham', 'durham@uni-kiel.de', '2017-10-08', '1');", 0);
-	}
 }
