@@ -44,22 +44,15 @@
 		
 		<!-- <aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentationNoGetterAndSetter" /> -->	
 		
-	 	<!--< aspect name="kieker.monitoring.probe.aspectj.database.FullInstrumentation" /> -->
+	 	<aspect name="kieker.monitoring.probe.aspectj.database.Fullinstrumentation" />
 		<!--
 			Definition of additional targeted aspects (example for a single additional getter). 
 			Use these directives to create additional aspects without the need to actually implement them. -->
-		 
-		<!--		
-		<concrete-aspect name="kieker.monitoring.probe.aspectj.database.TargetedAspect" extends="kieker.monitoring.probe.aspectj.database.AbstractAspect">
-			<pointcut name="monitoredOperation" expression="execution(int kiekerFlow.TestFlow.getA())" />
-		</concrete-aspect>
-		-->
-
 		<!-- Verifying specific pointcuts -->	
-		<concrete-aspect name="kieker.monitoring.probe.aspectj.database.TargetedAspect" extends="kieker.monitoring.probe.aspectj.database.AbstractAspect">
+		<!-- <concrete-aspect name="kieker.monitoring.probe.aspectj.database.TargetedAspect" extends="kieker.monitoring.probe.aspectj.database.AbstractAspect">
 			<pointcut name="monitoredOperation" expression="call(java.sql.Statement java.sql.Connection.createStatement()) || call(boolean java.sql.Statement.execute(String)) || call(java.sql.ResultSet java.sql.Statement.executeQuery(String)) || call(boolean java.sql.PreparedStatement.execute()) || call(java.sql.ResultSet java.sql.PreparedStatement.executeQuery())" />
 		</concrete-aspect>		
-		
+		-->
 	</aspects>
 </aspectj>
 
