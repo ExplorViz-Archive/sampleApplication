@@ -14,12 +14,16 @@ public class JavaExample {
 	private static final Logger LOG = Logger.getLogger(JavaExample.class.getName());
 
 	public static void main(String[] args) {
-		LOG.info("Hello, I'm a fibunacci calculator!");
-		LOG.info("Enter number upto which Fibonacci series to print: ");
-		Scanner scanner = new Scanner(System.in);
-		int number = scanner.nextInt();
-		LOG.info(String.valueOf(fibonacci(number)));
-		scanner.close();
+		if (args == null || args.length == 0) {
+			LOG.info("Hello, I'm a fibunacci calculator!");
+			LOG.info("Enter number upto which Fibonacci series to print: ");
+			Scanner scanner = new Scanner(System.in);
+			int number = scanner.nextInt();
+			LOG.info(String.valueOf(fibonacci(number)));
+			scanner.close();
+		} else {
+			fibonacci(Integer.valueOf(args[0]));
+		}
 	}
 
 	public static int fibonacci(int number) {
