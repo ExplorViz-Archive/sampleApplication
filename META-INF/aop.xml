@@ -42,7 +42,7 @@
 		<!-- Method executions and method calls: -->
 		<!-- <aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentation" /> -->
 		
-		<!-- <aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentationNoGetterAndSetter" /> -->	
+		<aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentationNoGetterAndSetter" />
 		
 	 	<aspect name="kieker.monitoring.probe.aspectj.database.Fullinstrumentation" />
 		<!--
