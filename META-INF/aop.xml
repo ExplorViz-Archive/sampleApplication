@@ -12,7 +12,7 @@
 		<!-- 
 			Use * to consider all classes in all packages. In this case, you typically need some additional excludes. 
 		-->
-		<include within="sampleApplication..*"/>
+		<include within="net.explorviz.sampleApplication..*"/>
 
 		<!--
 			Include/exclude examples for specific libraries:
