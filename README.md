@@ -12,4 +12,4 @@ Usage:
 For continuous monitoring data, use instead the following scripts:
 `./runMonitoredApplicationLoop.sh` (Unix) or `./runMonitoredApplicationLoop.bat` (Windows)
 
-For more information, visit the [https://www.explorviz.net] ExplorViz website.
+For more information, visit the [ExplorViz](https://www.explorviz.net) website.
