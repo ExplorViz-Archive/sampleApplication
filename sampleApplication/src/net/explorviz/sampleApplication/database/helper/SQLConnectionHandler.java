@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import net.explorviz.sampleApplication.database.JDBCExample;
 
@@ -14,7 +15,9 @@ import net.explorviz.sampleApplication.database.JDBCExample;
  *
  */
 public class SQLConnectionHandler {
-
+	
+	static Logger LOG = Logger.getLogger("global");
+	
 	/**
 	 * Established connection to a database
 	 * 
@@ -28,7 +31,7 @@ public class SQLConnectionHandler {
 		try {
 			connection = DriverManager.getConnection(DB_URL);
 		} catch (SQLException e) {
-			JDBCExample.LOG.warning(e.getMessage());
+			LOG.warning(e.getMessage());
 		}
 		return connection;
 	}
@@ -42,7 +45,7 @@ public class SQLConnectionHandler {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			JDBCExample.LOG.warning(e.getMessage());
+			LOG.warning(e.getMessage());
 		}
 	}
 
@@ -55,8 +58,8 @@ public class SQLConnectionHandler {
 		try (Connection conn = DriverManager.getConnection(url)) {
 			if (conn != null) {
 				DatabaseMetaData meta = conn.getMetaData();
-				JDBCExample.LOG.info("The driver name is " + meta.getDriverName());
-				JDBCExample.LOG.info("A new database " + databaseName + " has been created.");
+				LOG.info("The driver name is " + meta.getDriverName());
+				LOG.info("A new database " + databaseName + " has been created.");
 			}
 
 		} catch (SQLException e) {

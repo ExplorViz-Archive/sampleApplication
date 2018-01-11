@@ -12,7 +12,7 @@ import net.explorviz.sampleApplication.application.math.Fibonacci;
  */
 public class JavaExample {
 
-	private static final Logger LOG = Logger.getLogger(JavaExample.class.getName());
+	static Logger LOG = Logger.getLogger("global");
 
 	public static void start() {
 		LOG.info("Calculating fibonacci numbers...");

@@ -2,9 +2,9 @@ package net.explorviz.sampleApplication.database;
 
 import java.util.logging.Logger;
 
-import net.explorviz.sampleApplication.database.handler.SQLStatementHandler;
-import net.explorviz.sampleApplication.database.helper.RandomNumberGenerator;
 import net.explorviz.sampleApplication.database.helper.SQLConnectionHandler;
+import net.explorviz.sampleApplication.database.helper.SQLStatementHandler;
+import net.explorviz.sampleApplication.util.RandomNumberGenerator;
 
 /**
  * JDBC Example Application Class for testing the new DatabaseAspect
