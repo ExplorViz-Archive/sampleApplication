@@ -8,13 +8,14 @@ import java.util.logging.Logger;
 
 /**
  * Handler for creating SQL statements based on the type of query
+ * 
  * @author Christian Zirkelbach (czi@informatik.uni-kiel.de)
  *
  */
 public class SQLStatementHandler {
 
 	static Logger LOG = Logger.getLogger("global");
-	
+
 	public enum Querytype {
 		statementExecute, statementExecuteQuery, preparedStatementExecute, preparedStatementExecuteQuery
 	}
@@ -32,6 +33,8 @@ public class SQLStatementHandler {
 
 		try {
 			if (conn != null) {
+				LOG.info("Query: " + query);
+
 				switch (qType) {
 				case statementExecute:
 					final Statement stmtE;

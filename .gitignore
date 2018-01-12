@@ -9,3 +9,10 @@ bin
 
 test.db
 sampleApplication/test.db
+/sampleApplication/test.db-journal
+/sampleApplication/bin1/net/explorviz/sampleApplication/*.class
+/sampleApplication/bin1/net/explorviz/sampleApplication/application/*.class
+/sampleApplication/bin1/net/explorviz/sampleApplication/application/math/*.class
+/sampleApplication/bin1/net/explorviz/sampleApplication/database/*.class
+/sampleApplication/bin1/net/explorviz/sampleApplication/database/helper/*.class
+/sampleApplication/bin1/net/explorviz/sampleApplication/util/*.class

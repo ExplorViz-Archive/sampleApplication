@@ -14,7 +14,7 @@ import net.explorviz.sampleApplication.util.RandomNumberGenerator;
  */
 public class JDBCExample {
 
-	public static final Logger LOG = Logger.getLogger(JDBCExample.class.getName());
+	static Logger LOG = Logger.getLogger("global");
 	public static final String DB_BASE_URL = "jdbc:sqlite:";
 	private static final String databaseName = "test.db";
 
