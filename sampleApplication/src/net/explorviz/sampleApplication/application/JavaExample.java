@@ -17,6 +17,10 @@ public class JavaExample {
 	public static void start() {
 		LOG.info("Calculating fibonacci numbers...");
 		LOG.info("Fibonacci of 3: " + Fibonacci.calculate(3));
+		LOG.info("Fibonacci of 3: " + Fibonacci.calculate(3));
+		LOG.info("Fibonacci of 3: " + Fibonacci.calculate(3));
+		LOG.info("Fibonacci of 5: " + Fibonacci.calculate(5));
+		LOG.info("Fibonacci of 5: " + Fibonacci.calculate(5));
 		LOG.info("Fibonacci of 5: " + Fibonacci.calculate(5));
 		LOG.info("Fibonacci of 10: " + Fibonacci.calculate(10));
 		LOG.info("Finished calculating fibonacci numbers.");

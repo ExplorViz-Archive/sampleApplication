@@ -19,7 +19,7 @@ import net.explorviz.sampleApplication.util.RandomNumberGenerator;
 public class Main {
 
 	// Enable or disable logging
-	public final static boolean ENABLE_LOGGING = false;
+	public final static boolean ENABLE_LOGGING = true;
 
 	static class ApplicationTask extends TimerTask {
 		@Override
@@ -44,7 +44,8 @@ public class Main {
 		}
 		
 		Timer timer = new Timer();
-		timer.schedule(new ApplicationTask(), RandomNumberGenerator.getRandomNumber(1000, 3000));
+		timer.schedule(new ApplicationTask(), RandomNumberGenerator.getRandomNumber(1000, 4000));
 		timer.schedule(new DatabaseTask(), 1000, RandomNumberGenerator.getRandomNumber(500, 5000));
+		timer.schedule(new ApplicationTask(), 2000, RandomNumberGenerator.getRandomNumber(6000, 8000));
 	}
 }
