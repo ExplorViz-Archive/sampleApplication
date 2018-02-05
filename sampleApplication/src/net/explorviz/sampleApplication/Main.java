@@ -19,7 +19,7 @@ import net.explorviz.sampleApplication.util.RandomNumberGenerator;
 public class Main {
 
 	// Enable or disable logging
-	public final static boolean ENABLE_LOGGING = true;
+	public final static boolean ENABLE_LOGGING = false;
 
 	static class ApplicationTask extends TimerTask {
 		@Override
