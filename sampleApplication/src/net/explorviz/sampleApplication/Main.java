@@ -42,7 +42,7 @@ public class Main {
 			Logger globalLogger = Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
 			globalLogger.setLevel(java.util.logging.Level.OFF);
 		}
-		
+
 		Timer timer = new Timer();
 		timer.schedule(new ApplicationTask(), RandomNumberGenerator.getRandomNumber(1000, 4000));
 		timer.schedule(new DatabaseTask(), 1000, RandomNumberGenerator.getRandomNumber(500, 5000));

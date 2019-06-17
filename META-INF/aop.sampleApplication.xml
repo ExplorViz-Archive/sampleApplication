@@ -1,0 +1,58 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.aspectj.org/dtd/aspectj_1_5_0.dtd">
+
+<aspectj>
+	<weaver options="-verbose"> <!-- options="-verbose -showWeaveInfo -Xjoinpoints:synchronization" -->
+
+		<!--
+			 Use the exclude/include directives to specify which classes are (not) to be considered for weaving.
+		     Some examples are given below. Please refer to the AspectJ documentation to learn more on the 
+		     allowed patterns, including wildcards. 
+		-->
+
+		<!-- 
+			Use * to consider all classes in all packages. In this case, you typically need some additional excludes. 
+		-->
+		<include within="net.explorviz.sampleApplication..*"/>
+
+		<!--
+			Include/exclude examples for specific libraries:
+		-->
+
+		<!-- 
+		     Important: The logger library that is configured to be used by Kieker must always be excluded!
+		     (Particularly important when using the include-all directive from above.) 
+		--> 
+		<exclude within="org.apache.commons.logging..*" /> 
+		<exclude within="org.slf4j..*" /> 
+		<exclude within="java.util.logging..*" /> 
+		<exclude within="org.apache.log4j..*" />
+
+		<!-- Instrument all kieker.tests: -->
+		<!-- <include within="kieker.tests..*" /> -->
+
+		<!-- Example instrumentation for the iBATIS JPetStore -->
+		<!-- <include within="com.ibatis.jpetstore..*"/> -->
+		<!-- <include within="org.apache.struts.action.ActionServlet" /> -->
+
+		<!-- Include this to enable javac compilation (instead of ajc) of the probes: -->
+		<!-- <include within="kieker.monitoring.probe.aspectj..*"/> -->
+	</weaver>
+
+	<aspects>		
+		<!-- Method executions and method calls: -->
+		<!-- <aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentation" /> -->
+		
+		<aspect name="kieker.monitoring.probe.aspectj.flow.operationExecution.FullInstrumentationNoGetterAndSetter" />
+		
+	 	<aspect name="kieker.monitoring.probe.aspectj.database.Fullinstrumentation" />
+		<!--
+			Definition of additional targeted aspects (example for a single additional getter). 
+			Use these directives to create additional aspects without the need to actually implement them. -->
+		<!-- Verifying specific pointcuts -->	
+		<!-- <concrete-aspect name="kieker.monitoring.probe.aspectj.database.TargetedAspect" extends="kieker.monitoring.probe.aspectj.database.AbstractAspect">
+			<pointcut name="monitoredOperation" expression="call(java.sql.Statement java.sql.Connection.createStatement()) || call(boolean java.sql.Statement.execute(String)) || call(java.sql.ResultSet java.sql.Statement.executeQuery(String)) || call(boolean java.sql.PreparedStatement.execute()) || call(java.sql.ResultSet java.sql.PreparedStatement.executeQuery())" />
+		</concrete-aspect>		
+		-->
+	</aspects>
+</aspectj>
+
