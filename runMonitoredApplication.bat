@@ -15,6 +15,7 @@ START "kiekerSystemMonitoring" ".\kiekerSystemMonitoring\kieker-1.14-SNAPSHOT\bi
 START "sampleApplication" java -javaagent:kieker-1.14-SNAPSHOT-aspectj.jar -Dkieker.monitoring.configuration=.\META-INF\kieker.monitoring.sampleApplication.properties -Dorg.aspectj.weaver.loadtime.configuration=.\META-INF\aop.sampleApplication.xml -cp . -jar sampleApplication.jar
 START "sampleServer" java -javaagent:kieker-1.14-SNAPSHOT-aspectj.jar -Dkieker.monitoring.configuration=.\META-INF\kieker.monitoring.remoteSampleApplicationServer.properties -Dorg.aspectj.weaver.loadtime.configuration=.\META-INF\aop.remoteSampleApplicationServer.xml -cp . -jar remoteSampleApplicationServer.jar
 
+REM Allow server some time to start before starting clients
 timeout /t 3
 
 :loopClient
