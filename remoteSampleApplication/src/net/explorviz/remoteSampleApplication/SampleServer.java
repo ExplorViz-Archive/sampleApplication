@@ -6,6 +6,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Sample RMI server for testing the remote call instrumentation aspects
+ * 
+ * @author Christian Zirkelbach (czi@informatik.uni-kiel.de)
+ *
+ */
 public class SampleServer implements SampleInterface {
 
 	@Override

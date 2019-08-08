@@ -6,6 +6,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
 
+/**
+ * Sample RMI client for testing the remote call instrumentation aspects
+ * 
+ * @author Christian Zirkelbach (czi@informatik.uni-kiel.de)
+ *
+ */
 public class SampleClient {
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {

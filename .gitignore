@@ -17,3 +17,4 @@ sampleApplication/test.db
 /sampleApplication/bin1/net/explorviz/sampleApplication/database/*.class
 /sampleApplication/bin1/net/explorviz/sampleApplication/database/helper/*.class
 /sampleApplication/bin1/net/explorviz/sampleApplication/util/*.class
+/*.db-journal
