@@ -7,12 +7,12 @@ Generates monitoring data employing the following Kieker aspects
 - *aspectj.operationExecution.FullInstrumentationNoGetterAndSetter (Java application calls)*
 - *aspectj.database.Fullinstrumentation (JDBC related database calls)*
 
-> Attention
->
-> This set up is provided to instrument directly executed Java applications.
->
-> The set up for application servers is under revision right now and will be released later.
+```
+Attention
 
+This set up is provided to instrument directly executed Java applications.
+The set up for application servers is under revision right now and will be released later.
+```
 Usage:
 `./runMonitoredApplication.sh` (Unix) or `./runMonitoredApplication.bat` (Windows)
 
