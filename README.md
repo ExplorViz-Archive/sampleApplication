@@ -40,5 +40,3 @@ Path: `META-INF/kieker.monitoring.properties`
 	*(only necessary, if the server and monitoring are running on different hosts)*
 
 For more information, visit the [ExplorViz](https://www.explorviz.net) website.
-
-For more information, visit the [ExplorViz](https://www.explorviz.net) website.
