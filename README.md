@@ -1,4 +1,4 @@
-# ExplorViz kiekerSampleApplication
+# ExplorViz SampleApplication
 A straightforward sample application generating monitoring data for [ExplorViz](https://www.explorviz.net).
 
 The monitoring data is gathered by the [Kieker](http://kieker-monitoring.net/) monitoring component.
@@ -20,7 +20,7 @@ The monitoring script is running until termination.
 
 ## Configuration Options
 ### Monitoring scope
-Path: `META-INF/aop.xml`
+Path: `META-INF/aop.{...}.xml`
 - Choose the packages, which should be monitored
 
 	`<include within="net.explorviz.sampleApplication..*"/>`
@@ -29,7 +29,7 @@ Path: `META-INF/aop.xml`
 	`<exclude within="org.apache.commons.logging..*" />`
 	
 ### Application name
-Path: `META-INF/kieker.monitoring.properties`
+Path: `META-INF/kieker.{...}.monitoring.properties`
 - Change the name of the application
 
 	`kieker.monitoring.applicationName=sampleApplication`
